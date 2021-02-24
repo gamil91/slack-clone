@@ -31,3 +31,15 @@ export const sidebarItems = [
         text: "More"
     }
 ]
+
+export const sidebarChannels = [
+    {
+        channel: "Baby Cocoons"
+    },
+    {
+        channel: "West-SE-100520"
+    },
+    {
+        channel: "Algo-club"
+    }
+]
