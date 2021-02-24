@@ -1,10 +1,21 @@
 import React from 'react';
 import styled from 'styled-components'
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import AddIcon from '@material-ui/icons/Add';
-import { sidebarItems } from '../data/SidebarData'
 
-function Sidebar () {
+import { AddCircleOutline, Add} from '@material-ui/icons'
+import { sidebarItems } from '../data/SidebarData'
+import db from '../firebase'
+
+function Sidebar ({rooms}) {
+
+    const addChannel = () => {
+        const promptName = prompt("Enter channel name")
+        if (promptName){
+            db.collection('rooms').add({
+                name: promptName
+            })
+        }
+    }
+
     return (
         <Container>
             <WorkspaceContainer>
@@ -12,7 +23,7 @@ function Sidebar () {
                     Alex
                 </Name>
                 <NewMessage>
-                    <AddCircleIcon/>
+                    <AddCircleOutline/>
                 </NewMessage>
             </WorkspaceContainer>
 
@@ -32,14 +43,17 @@ function Sidebar () {
                     <div>
                         Channels
                     </div>
-                    <AddIcon/>
+                    <NewChannel>
+                        <Add onClick={addChannel}/>
+                    </NewChannel>
                 </NewChannelContainer>
                 <ChannelsList>
-
-                    <Channel>
-                        #Channel
+                   { rooms.map(item => (
+                   <Channel>
+                        # {item.name}
                     </Channel>
-
+                    )) 
+                    }
                 </ChannelsList>
             </ChannelsContainer>
         </Container>
@@ -49,7 +63,7 @@ function Sidebar () {
 export default Sidebar
 
 const Container = styled.div`
-    background: 3F0E40;
+    background: #3F0E40;
 `
 
 const WorkspaceContainer = styled.div`
@@ -74,20 +88,20 @@ const NewMessage = styled.div`
     fill: #3F0E40;
     display: flex;
     justify-content:center;
-    align-items: cener;
-    border-radius: 50%
+    align-items: center;
+    border-radius: 50%;
     margin-right: 20px;
     cursor: pointer;
 `
 
 const MainChannels = styled.div`
-
+    padding-top: 20px;
 `
 
 const MainChannelItem = styled.div `
-    color: rgb(188, 171, 188);
+    color: rgb(188,171,188);
     display: grid;
-    grid-template-columns: 15%, auto
+    grid-template-columns: 15% auto;
     height: 28px;
     align-items: center;
     padding-left: 19px;
@@ -106,12 +120,14 @@ const NewChannelContainer = styled.div`
     justify-content: space-between;
     align-items: center;
     padding-left: 19px;
-    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 3px;
 `
 
 const ChannelsList= styled.div`
 
 `
+
 const Channel= styled.div`
     height: 28px;
     display: flex;
@@ -121,5 +137,7 @@ const Channel= styled.div`
     :hover {
         background: #350D36
     }
-
 `
+ const NewChannel = styled.div`
+    cursor: pointer;
+ `

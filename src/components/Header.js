@@ -1,21 +1,19 @@
 import React from 'react';
 import styled from 'styled-components'
 
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
-// import { AccessTimeIcon, HelpOutlineIcon } from '@material-ui/icons'
-
+import { AccessTime, HelpOutline } from '@material-ui/icons'
+ 
 const Header = () => {
     return (
         <Container>
             <Main>
-                <AccessTimeIcon/>
+                <AccessTime/>
                     <SearchContainer>
                         <Search>
-                            <input type="text" placeholder="...search"/>
+                            <input type="text" placeholder="Search..."/>
                         </Search>
                     </SearchContainer>
-                <HelpOutlineIcon/>
+                <HelpOutline/>
             </Main>
             <UserContainer>
                 <Name>
@@ -37,10 +35,9 @@ const Container = styled.div`
     color: white;
     display:flex;
     align-items:center;
-    justify-content: space-between;
+    justify-content: center;
     position:relative;
-    z-index: 10;
-    box-shadow: 0 1px 0 0 rgb(255 255 255);
+    box-shadow: 0 1px 0 0 rgb(255 255 255 / 10%);
 `
 
 const Main = styled.div`
@@ -65,15 +62,16 @@ const Search = styled.div`
     
     input {
         background-color: transparent;
-        border: none
+        border: none;
         padding-left: 8px;
         padding-right: 8px;
         color: white;
         padding-top: 4px;
         padding-bottom: 4px;
+        width: 100%;
     }
 
-    inpute:focus {
+    input:focus {
         outline:none;
     }
     `
