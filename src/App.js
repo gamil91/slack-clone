@@ -1,14 +1,31 @@
 import './App.css'
 import styled from 'styled-components'
 
-
 import Header from './components/Header'
 import Sidebar from './components/Sidebar';
 import Login from './components/Login'
 import Chat from './components/Chat'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import db from './firebase.js'
+import { useEffect, useState } from 'react'
 
 function App() {
+
+  const [rooms, setRooms] = useState([])
+
+  const getChannels = () => {
+    db.collection('rooms').onSnapshot((snapshot) => {
+       setRooms(snapshot.docs.map((doc) => {
+        return {id: doc.id, name:doc.data().name}
+       }))
+    })
+  }
+
+  useEffect(() => {
+    getChannels()
+  }, [])
+
+
   return (
     <div className="App">
 
@@ -16,7 +33,7 @@ function App() {
       <Container>
         <Header/>
         <Main>
-          <Sidebar/>
+          <Sidebar rooms={rooms}/>
           <Switch>
             <Route path="/room">
               <Chat/>
