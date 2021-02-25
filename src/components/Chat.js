@@ -5,7 +5,7 @@ import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
 import db from '../firebase'
 import { useParams } from 'react-router-dom'
-import firebase from '../firebase'
+import firebase from 'firebase'
 
 
 const Chat = ({ user }) => {
@@ -98,6 +98,7 @@ export default Chat;
 const Container = styled.div`
     display: grid;
     grid-template-rows: 64px auto min-content;
+    min-height: 0;
     `
     
 const Header = styled.div`
@@ -137,5 +138,8 @@ const InfoIcon = styled(InfoOutlined)`
 `
 
 const MessageContainer = styled.div`
+    display:flex;
+    flex-direction:column;
+    overflow-y:scroll;
 `
 
