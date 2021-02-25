@@ -1,18 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'
 import {StarBorder, InfoOutlined} from '@material-ui/icons';
 import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
-
+import db from '../firebase'
+import { useParams } from 'react-router-dom'
 
 
 const Chat = () => {
+
+    let { channelId } = useParams();
+    const [ channel, setChannel ] = useState();
+
+    const getChannel = () => {
+        db.collection('rooms')
+        .doc(channelId)
+        .onSnapshot((snap)=> {
+            setChannel(snap.data())
+        })
+    }
+
+    useEffect(() => {
+        getChannel()
+    }, [channelId])
+
+    console.log(channel)
+    // debugger
     return (
         <Container>
             <Header>
                 <Channel>
                     <ChannelName>
-                        # baby cocoons<StarBorder/>
+                        # {channel.name}<StarBorder/>
                     </ChannelName>
                     <ChannelInfo>
                         Your go to debugging team
