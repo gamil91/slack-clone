@@ -9,7 +9,7 @@ const ChatInput = () => {
     return (
         <Container>
             <InputContainer>
-                <form>
+                <form onSubmit={}>
                     <input type="text" placeholder="Message here..."/>
                     <SendButton>
                         <Send/>

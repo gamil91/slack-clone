@@ -53,13 +53,13 @@ function App() {
           <Switch>
 
             <Route path="/room/:channelId">
-              <Chat/>
+              <Chat user={user}/>
             </Route>
 
             <Route path="/">
               Select or Create Channel
             </Route> 
-            
+
           </Switch>
         </Main>
       </Container>
