@@ -8,10 +8,19 @@ import Chat from './components/Chat'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import db from './firebase.js'
 import { useEffect, useState } from 'react'
+import { auth, provider } from './firebase.js'
 
 function App() {
 
   const [rooms, setRooms] = useState([])
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
+  const signOut = () => {
+    auth.signOut()
+    .then(() => {
+      setUser(null)
+      localStorage.removeItem('user')
+    })
+  }
 
   const getChannels = () => {
     db.collection('rooms').onSnapshot((snapshot) => {
@@ -25,26 +34,37 @@ function App() {
     getChannels()
   }, [])
 
+  
+  
 
   return (
     <div className="App">
 
       <Router>
+        {
+          !user ?
+          <Login setUser={setUser}/> :
+        
       <Container>
-        <Header/>
+        <Header user={user} signOut={signOut}/>
         <Main>
           <Sidebar rooms={rooms}/>
+
           <Switch>
-            <Route path="/room">
-              <Chat/>
+
+            <Route path="/room/:channelId">
+              <Chat user={user}/>
             </Route>
 
             <Route path="/">
-              <Login/>
-            </Route>
+              Select or Create Channel
+            </Route> 
+
           </Switch>
         </Main>
       </Container>
+
+      }
       </Router>
 
     </div>
@@ -57,7 +77,7 @@ const Container = styled.div`
   width:100%;
   height:100vh;
   display:grid;
-  grid-template-rows: 38px auto; 
+  grid-template-rows: 38px minmax(0, 1fr); 
 `
 
 const Main = styled.div`
